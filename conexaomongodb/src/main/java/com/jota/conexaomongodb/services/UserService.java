@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jota.conexaomongodb.domain.User;
 import com.jota.conexaomongodb.repository.UserRepository;
+import com.jota.conexaomongodb.services.exception.ObjectNotFoundException;
 
 @Service
 public class UserService {
@@ -19,5 +20,14 @@ public class UserService {
 		
 	}
 	
-
+	public User findById(String id) {
+		User user =  userRepository.findById(id).orElse(null);
+		if(user ==null) {
+			throw new ObjectNotFoundException("Objeto não Encontrado");
+			
+		}
+		return user;
+		
+			
+	}
 }
