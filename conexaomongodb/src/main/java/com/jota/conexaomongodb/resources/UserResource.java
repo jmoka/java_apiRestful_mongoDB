@@ -1,6 +1,7 @@
 package com.jota.conexaomongodb.resources;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jota.conexaomongodb.domain.User;
+import com.jota.conexaomongodb.dto.UserDTO;
 import com.jota.conexaomongodb.services.UserService;
 
 @RestController
@@ -21,9 +23,14 @@ public class UserResource {
 	
 	//@RequestMapping(method = RequestMethod.GET)
 	@GetMapping
-	public ResponseEntity<List<User>> findAll() {
+	public ResponseEntity<List<UserDTO>> findAll() {
+		
+		// recebe a lista de todos usuarios , porém precisa converter essa lista para uma lista UserDTO
 		List<User> list = userService.findAll();
-		return ResponseEntity.ok().body(list);
+		
+		// converter uma lista e listaDTO
+		List<UserDTO> listDTO = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 
 	}
 
