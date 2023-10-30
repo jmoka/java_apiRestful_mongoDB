@@ -1,13 +1,16 @@
 package com.jota.conexaomongodb.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.jota.conexaomongodb.dto.AuthorDTO;
+import com.jota.conexaomongodb.dto.ComentDTO;
 
 // Informar que a classe é um documento do mongodb
 @Document
@@ -20,6 +23,9 @@ public class Post implements Serializable {
 	private String title;
 	private String body;
 	private AuthorDTO author;
+	
+	
+	private List<ComentDTO> coments = new ArrayList<>();
 
 	public Post() {
 
@@ -73,6 +79,15 @@ public class Post implements Serializable {
 	public void setauthor(AuthorDTO author) {
 		this.author = author;
 	}
+	
+	public List<ComentDTO> getComents() {
+		return coments;
+	}
+
+	public void setComents(List<ComentDTO> coments) {
+		this.coments = coments;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -96,6 +111,7 @@ public class Post implements Serializable {
 		return "Post [id=" + id + ", date=" + date + ", title=" + title + ", body=" + body + ", author=" + author + "]";
 	}
 
+	
 	
 	
 
