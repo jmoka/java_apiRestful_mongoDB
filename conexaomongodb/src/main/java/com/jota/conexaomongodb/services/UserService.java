@@ -32,10 +32,33 @@ public class UserService {
 	public User insert(User obj) {
 		return userRepository.insert(obj);
 	}
+	
+	
+	public User delete(String id) {
+		findById(id);
+		userRepository.deleteById(id);
+		return null;
+	}
+
+	public User update(User obj) {
+		User newObj = findById(obj.getId());
+		updateData(newObj, obj);
+		return userRepository.save(newObj);
+		}
+	
+	
+	private void updateData(User newObj, User obj) {
+		newObj.setNome(obj.getNome());
+		newObj.setEndereco(obj.getEndereco());
+		newObj.setTelefone(obj.getTelefone());
+		
+	}
 
 	// pega um DTO e estancia um Usuário a partir dele
 	public User FromDTO(UserDTO objDto) {
 		return new User(objDto.getId(), objDto.getNome(), objDto.getEndereco(), objDto.getTelefone());
 	}
+	
+
 
 }

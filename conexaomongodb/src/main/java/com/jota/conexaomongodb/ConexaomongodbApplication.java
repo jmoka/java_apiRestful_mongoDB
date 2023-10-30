@@ -8,6 +8,16 @@ public class ConexaomongodbApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ConexaomongodbApplication.class, args);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
 }

@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,19 +49,41 @@ public class UserResource {
 
 	}
 
+	// @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Void> update(@RequestBody UserDTO objDTO, @PathVariable String id) {
+		User user = userService.FromDTO(objDTO);
+		user.setId(id);
+		user = userService.update(user);
+		// quando a sua resposta não retorna nada o codigo é 204
+		return ResponseEntity.noContent().build();
+
+	}
+
+	// @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable String id) {
+		userService.delete(id);
+		// quando a sua resposta não retorna nada o codigo é 204
+		return ResponseEntity.noContent().build();
+
+	}
+
 	// @RequestMapping(method = RequestMethod.POS)
 	@PostMapping
 	public ResponseEntity<Void> insert(@RequestBody UserDTO objDTO) {
 		User user = userService.FromDTO(objDTO);
 		user = userService.insert(user);
-		
-		// codigo para retornar o objeto criado ou seja , vai retornar o User que foi criado
+
+		// codigo para retornar o objeto criado ou seja , vai retornar o User que foi
+		// criado
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
-		
-		
-		// created retorna o codigo 201 que é o codigo de resposta http quando é criado um novo recurso
-		
-		// retorna o resposta vazia com codigo 201 e o cabeçalho contando a localilzação do novo recurso criado  
+
+		// created retorna o codigo 201 que é o codigo de resposta http quando é criado
+		// um novo recurso
+
+		// retorna o resposta vazia com codigo 201 e o cabeçalho contando a localilzação
+		// do novo recurso criado
 		return ResponseEntity.created(uri).build();
 	}
 
