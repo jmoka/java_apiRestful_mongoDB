@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.jota.conexaomongodb.domain.Post;
 import com.jota.conexaomongodb.domain.User;
 import com.jota.conexaomongodb.dto.UserDTO;
 import com.jota.conexaomongodb.services.UserService;
@@ -86,5 +87,16 @@ public class UserResource {
 		// do novo recurso criado
 		return ResponseEntity.created(uri).build();
 	}
+	
+	
+	// @RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+		@GetMapping(value = "/{id}/posts")
+		public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+		User user = userService.findById(id);
+		return ResponseEntity.ok().body(user.getPosts());
+	
+		}
+	
+	
 
 }
