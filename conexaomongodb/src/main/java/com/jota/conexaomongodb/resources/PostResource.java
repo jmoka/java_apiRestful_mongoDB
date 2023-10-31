@@ -40,6 +40,16 @@ public class PostResource {
 
 	}
 	
+	@GetMapping(value = "/titlesearchmongo")
+	//@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> findbytitlemongo(@RequestParam(value = "text", defaultValue = "") String text) {
+		
+		text = URL.decodeParam(text); // decodifica o texto
+		List<Post> list = postService.findByTitle(text);
+		return ResponseEntity.ok().body(list);
+
+	}
+	
 	
 	
 
