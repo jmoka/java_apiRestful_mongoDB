@@ -1,5 +1,6 @@
 package com.jota.conexaomongodb.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,26 @@ public class PostResource {
 		text = URL.decodeParam(text); // decodifica o texto
 		List<Post> list = postService.findByTitle(text);
 		return ResponseEntity.ok().body(list);
+	}
+	
+	@GetMapping(value = "/fullsearch")
+	//@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> fullsearch(
+			
+			@RequestParam(value = "text", defaultValue = "") String text,
+			@RequestParam(value = "minDate", defaultValue = "") String minDate,
+			@RequestParam(value = "maxDate", defaultValue = "") String maxDate	) {
+		
+		text = URL.decodeParam(text); // decodifica o texto
+		Date min = URL.convertDate(minDate, new Date(0L)); // case de errado gera uma data padrão - new Date(0L)
+		Date max = URL.convertDate(maxDate, new Date()); // caso de errado gera a data atual - new Date()
+		
+		List<Post> list = postService.fullSearch(text, min, max);
+		return ResponseEntity.ok().body(list);
 
 	}
+	
+	
 	
 	
 	

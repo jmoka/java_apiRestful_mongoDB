@@ -1,5 +1,6 @@
 package com.jota.conexaomongodb.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,12 @@ public class PostService {
 
 	public List<Post> findByTitleMong(String text){
 		return postRepository.findByTitleMongo(text);
+	}
+	
+	public List<Post> fullSearch(String text, Date minDate, Date maxDate){
+		//acrescentar um dia na data maxima, devido as detas seram armazenada em mil segundos, para que seja contado ate 24 do proximo dia
+		
+		maxDate = new Date(maxDate.getTime()+24*60*60*1000);
+		return postRepository.fullSearch(text, minDate, maxDate);
 	}
 }
